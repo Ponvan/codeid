@@ -1,0 +1,155 @@
+-- Create a scalar function
+               SQL
+
+1.scalar functions are user-defined functions 
+that return a single value for each row in a result set. 
+Scalar functions can be used to perform computations on input parameters,
+constants, or columns from a table, and return a single value as a result.
+
+CREATE FUNCTION MultiplyTwoNumbers
+(
+    @a INT,
+    @b INT
+)
+RETURNS INT
+AS
+BEGIN
+    DECLARE @result INT
+    SET @result = @a * @b
+    RETURN @result
+END
+GO
+
+-- Use the scalar function in a query
+SELECT dbo.MultiplyTwoNumbers(3, 5) AS ProductResult;
+
+2.joins are used to combine data from two or more tables based 
+on a related column between them. Joins are fundamental in 
+relational databases and are used to retrieve data from multiple tables 
+in a single query. 
+
+Customers Table:
+
+CustomerID	CustomerName
+1	John Smith
+2	Jane Doe
+3	Mark Johnson
+4	Sarah Anderson
+Orders TablTable:
+
+OrderID	CustomerID	ProductName
+101	1	Product A
+102	2	Product B
+103	3	Product C
+104	1	Product D
+105	4	Product E
+INNER JOIN:
+
+The INNER JOIN returns only the rows that have matching data in both tables. Here's an example:
+
+SELECT Customers.CustomerID, Customers.CustomerName, Orders.OrderID, Orders.ProductName
+FROM Customers
+INNER JOIN Orders ON Customers.CustomerID = Orders.CustomerID;
+
+Output:
+
+CustomerID	CustomerName	OrderID	        ProductName
+1	       John Smith	101	         Product A
+1	       John Smith	104	         Product D
+2	       Jane Doe	        102	        Product B
+3	       Mark Johnson	103	
+
+3.ALTER TABLE table_name
+RENAME COLUMN old_column_name TO new_column_name;
+
+4.SELECT column_name, COUNT(*) AS DuplicateCount
+FROM table_name
+GROUP BY column_name
+HAVING COUNT(*) > 1;
+
+5.The DISTINCT statement is used in SQL to retrieve unique values from
+ a column or a combination of columns in a result set.
+ It is often used in combination with the SELECT statement to filter out 
+duplicate values and obtain a list of distinct values from one or more columns
+ in a table.
+The DISTINCT statement is useful in various scenarios, such as:
+
+1.Removing duplicate values from a column or columns in a result set to obtain a list of unique values.
+2.Retrieving a unique list of values from multiple columns to identify unique combinations of values.
+3.Simplifying result sets when querying multiple tables that contain redundant data.
+4.Counting distinct values for a specific column or columns.
+
+6.DELETE FROM table_name
+WHERE (column1, column2, ..., columnN) IN (
+  SELECT column1, column2, ..., columnN
+  FROM table_name
+  GROUP BY column1, column2, ..., columnN
+  HAVING COUNT(*) > 1
+);
+
+7.SELECT MAX(salary) AS max_salary
+FROM table_name
+WHERE department = 'department_name';
+
+8.operations:
+
+select:
+SELECT column1, column2
+FROM table_name
+WHERE condition;
+
+INSERT:
+INSERT INTO table_name (column1, column2, ...)
+VALUES (value1, value2, ...);
+
+UPDATE:
+UPDATE table_name
+SET column1 = value1, column2 = value2
+WHERE condition;
+
+DELETE:
+DELETE FROM table_name
+WHERE condition;
+
+JOINS:
+SELECT table1.column1, table2.column2
+FROM table1
+JOIN table2 ON table1.id = table2.id
+WHERE condition;
+
+9.SELECT *
+FROM employee
+LIMIT 5;
+
+10.SELECT *
+FROM employee
+ORDER BY employee_id DESC
+LIMIT 5;
+
+11.SELECT *
+FROM (
+  SELECT employee_id, salary, RANK() OVER (ORDER BY salary DESC) AS rank
+  FROM employee
+) AS ranked_employees
+WHERE rank = 3;
+
+12.-- Create a new table with the same structure as the existing "employee" table
+CREATE TABLE new_employee
+AS
+SELECT *
+FROM employee
+WHERE 1 = 0;
+
+-- Copy the data from the existing "employee" table to the new table
+INSERT INTO new_employee
+SELECT *
+FROM employee;
+
+13.USING LEFT JOIN:
+
+SELECT e.*
+FROM employee e
+LEFT JOIN department d ON e.department_id = d.department_id
+WHERE d.department_id IS NULL;
+
+
